@@ -62,11 +62,7 @@ namespace Efa.Feedback.RabbitMQ
                                      false,
                                      null);
 
-            _channel.QueueDeclare(queue: nomeFila,
-                                  durable: false,
-                                  exclusive: false,
-                                  autoDelete: false,
-                                  arguments: null);
+            _channel.QueueDeclare(queue: nomeFila);
 
             _channel.QueueBind(queue: nomeFila,
                                exchange: nomeExchange,

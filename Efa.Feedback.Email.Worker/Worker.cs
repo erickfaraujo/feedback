@@ -1,10 +1,5 @@
-﻿using Efa.Feedback.Domain.Request;
-using Efa.Feedback.RabbitMQ;
+﻿using Efa.Feedback.RabbitMQ;
 using Microsoft.Extensions.Hosting;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
-using System.Text;
-using System.Text.Json;
 
 namespace Efa.Feedback.Email.Worker;
 
@@ -25,7 +20,7 @@ public class Worker : BackgroundService
         {
             Console.WriteLine($"Rodando: {DateTime.Now}");
 
-            _messageHandler.IniciarConexao("queue.chegando","xch.chegando");
+            _messageHandler.IniciarConexao("queue.chegando", "xch.chegando");
 
             Console.WriteLine(" Press [enter] to exit.");
             Console.ReadLine();
@@ -36,15 +31,5 @@ public class Worker : BackgroundService
 
         Console.WriteLine("O serviço está parando.");
     }
-
-    public static void TratarMensagem(string messageRabbit)
-    {
-        if (string.IsNullOrEmpty(messageRabbit)) { return; }
-
-        var message = JsonSerializer.Deserialize<EnviarFeedbackRequest>(messageRabbit);
-
-        Console.WriteLine("Destino: " + message!.IdUserDestino);
-    }
-
 
 }

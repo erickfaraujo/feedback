@@ -1,19 +1,22 @@
-﻿using Efa.Feedback.Email.Worker;
+﻿using Efa.Feedback.Domain.Handler;
+using Efa.Feedback.Email.Worker;
+using Efa.Feedback.RabbitMQ;
+using MediatR;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
-using Efa.Feedback.RabbitMQ;
-using MediatR;
-using Efa.Feedback.Domain.Handler;
 
 IHost host = Host.CreateDefaultBuilder(args)
-    .ConfigureServices(services =>
+    .ConfigureServices((hostContext, services) =>
     {
+        IConfiguration configuration = hostContext.Configuration;
+
         services.AddHostedService<Worker>();
 
         services.AddSingleton<IConnectionFactory>(_ => new ConnectionFactory
         {
-            Uri = new Uri("amqp://guest:guest@localhost:5672")
+            Uri = new Uri(configuration.GetConnectionString("RabbitMQ"))
         });
 
         services.AddSingleton<IMessageHandler, MessageHandler>();

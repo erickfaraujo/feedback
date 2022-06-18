@@ -57,6 +57,9 @@ ipch/
 *.vsp
 *.vspx
 
+# Visual Studop folder
+.vs/
+
 # Guidance Automation Toolkit
 *.gpState
 
